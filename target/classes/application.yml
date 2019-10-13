@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
+    password: 123456
+    username: root
+#  jpa:
+#    show-sql: true
+#    format_sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+#        hbm2ddl:
+#          auto: update
+    mybatis:
+      type-aliases-package: com.guxf.mapper.AuthorMapper
+
+server:
+  port: 80
