@@ -61,16 +61,17 @@ public class CallBack implements MqttCallback {
         System.out.println("接收消息Qos : " + message.getQos());
         System.out.println("接收消息内容 : " + new String(message.getPayload()));
 
-        byte [] data = new byte[1024];
-        byte [] payloadBytesDecrypt = null;
-        System.out.println("key: "+ Arrays.toString(key));
-        byte [] payloadBytesEncrypt = message.getPayload();
-        System.out.println("payloadBytes: "+Arrays.toString(payloadBytesEncrypt));
-        payloadBytesDecrypt = SM4Util.decrypt_Ecb_NoPadding(key, payloadBytesEncrypt);
-        System.out.println("解密后字符：" + Arrays.toString(payloadBytesDecrypt));
-
-        String payload = new String(payloadBytesDecrypt);
-        System.out.println("解密后字符串："+ payload);
+//        byte [] data = new byte[1024];
+//        byte [] payloadBytesDecrypt = null;
+//        System.out.println("key: "+ Arrays.toString(key));
+//        byte [] payloadBytesEncrypt = message.getPayload();
+//        System.out.println("payloadBytes: "+Arrays.toString(payloadBytesEncrypt));
+//        payloadBytesDecrypt = SM4Util.decrypt_Ecb_NoPadding(key, payloadBytesEncrypt);
+//        System.out.println("解密后字符：" + Arrays.toString(payloadBytesDecrypt));
+//
+//        String payload = new String(payloadBytesDecrypt);
+        String payload = new String(message.getPayload());
+//        System.out.println("解密后字符串："+ payload);
 
         int endFlagIndex = payload.indexOf("E_N_D");
         JSONObject jsonObj2 = JSON.parseObject(payload.substring(0,endFlagIndex));
@@ -147,13 +148,13 @@ public class CallBack implements MqttCallback {
         }
 
         System.out.println(jsonObj3.toString());
-        System.arraycopy(jsonObj3.toString().getBytes(),0,data,0,jsonObj3.toString().length());
-        byte [] returnDataBytes = SM4Util.encrypt_Ecb_NoPadding(key, data);
-        System.out.println(Arrays.toString(returnDataBytes));
-        mqtt_publish(topic, returnDataBytes, gatewayId);
+//        System.arraycopy(jsonObj3.toString().getBytes(),0,data,0,jsonObj3.toString().length());
+//        byte [] returnDataBytes = SM4Util.encrypt_Ecb_NoPadding(key, data);
+//        System.out.println(Arrays.toString(returnDataBytes));
+        mqtt_publish(topic, jsonObj3.toString(), gatewayId);
     }
 
-    public void mqtt_publish(String topic, byte [] message, String gatewayId){
+    public void mqtt_publish(String topic, String message, String gatewayId){
         String resultTopic = null;
         if (topic.equals("authentication")){
             resultTopic = gatewayId + "_authentication";
